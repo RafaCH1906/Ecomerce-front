@@ -72,7 +72,7 @@ const Products = () => {
                   <div className="mt-auto flex items-center justify-between">
                     <div>
                       <span className="text-[10px] text-slate-500 block">Precio</span>
-                      <span className="text-xl font-bold text-white">${product.precio}</span>
+                      <span className="text-xl font-bold text-white">S/{product.precio}</span>
                     </div>
                     <button className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-2xl transition-all shadow-lg shadow-indigo-500/20 active:scale-90">
                       <ShoppingCart className="w-5 h-5 text-white" />
