@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import CreateUser from './pages/CreateUser';
 import ProtectedRoute from './components/ProtectedRoute';
+import Checkout from './pages/Checkout';
+import OrderHistory from './pages/OrderHistory';
+import OrderConfirmation from './pages/OrderConfirmation';
 
 function App() {
   return (
@@ -21,7 +24,34 @@ function App() {
           {/* Ruta pública: Catálogo */}
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
-          
+
+          {/* Ruta protegida: Checkout e Historial */}
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <ProtectedRoute>
+                <OrderHistory />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/order-confirmation/:orderId"
+            element={
+              <ProtectedRoute>
+                <OrderConfirmation />
+              </ProtectedRoute>
+            }
+          />
+
 
           {/* Ruta protegida: Solo Admin */}
           <Route 

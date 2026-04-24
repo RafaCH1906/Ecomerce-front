@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import {
@@ -13,6 +13,7 @@ const PRODUCT_PLACEHOLDER = '/product-placeholder.svg';
 
 const Cart = () => {
   const [items, setItems] = useState(getCartItems());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const refresh = () => setItems(getCartItems());
@@ -117,9 +118,13 @@ const Cart = () => {
                 <span>S/{total.toFixed(2)}</span>
               </div>
 
-              <button className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition-all mb-3">
+              <button 
+                onClick={() => navigate('/checkout')}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition-all mb-3"
+              >
                 Continuar compra
               </button>
+
 
               <button
                 onClick={clearCart}

@@ -46,6 +46,16 @@ const Navbar = () => {
             </Link>
           )}
 
+          {/* Historial de compras para usuarios logueados */}
+          {user && (
+            <button
+              onClick={() => navigate('/order-history')}
+              className="text-slate-300 hover:text-white transition-colors text-sm"
+            >
+              Mis Compras
+            </button>
+          )}
+
           <div className="h-6 w-px bg-white/10" />
 
           {user ? (
