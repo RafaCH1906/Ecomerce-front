@@ -5,12 +5,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
+import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 import CreateUser from './pages/CreateUser';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Placeholder de Dashboard real (puedes reemplazar luego)
-const Dashboard = () => <div className="p-10 text-white font-bold text-3xl">Dashboard de Analítica (KPI, gráficas, tops...)</div>;
 
 function App() {
   return (
@@ -39,6 +37,14 @@ function App() {
             element={
               <ProtectedRoute requiredRole="admin">
                 <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/crear-usuario"
+            element={
+              <ProtectedRoute requiredRole="superadmin">
+                <CreateUser />
               </ProtectedRoute>
             }
           />

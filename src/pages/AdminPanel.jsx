@@ -205,7 +205,9 @@ const AdminPanel = () => {
       <h2 className="text-3xl font-bold text-white mb-6">Panel de Administración</h2>
       <div className="flex flex-wrap gap-4 mb-8">
         <Link to="/dashboard" className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-medium transition-all">Dashboard</Link>
-        <Link to="/crear-usuario" className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-medium transition-all">Crear Usuario</Link>
+        {user?.role === 'superadmin' && (
+          <Link to="/crear-usuario" className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl font-medium transition-all">Crear Admin</Link>
+        )}
       </div>
 
       {/* Products Section */}
