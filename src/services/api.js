@@ -30,9 +30,14 @@ const createInstance = (baseURL) => {
   return instance;
 };
 
-// URLs de tus microservicios locales
-export const usersApi = createInstance('http://localhost:8000/api');
-export const productsApi = createInstance('http://localhost:8081/api');
-export const ordersApi = createInstance('http://localhost:3003/api');
-export const aggregatorApi = createInstance('http://localhost:8005/api');
-export const analyticsApi = createInstance('http://localhost:8006/api');
+const usersBaseUrl = import.meta.env.VITE_USERS_API_URL || 'http://localhost:8000/api';
+const productsBaseUrl = import.meta.env.VITE_PRODUCTS_API_URL || 'http://localhost:8081/api';
+const ordersBaseUrl = import.meta.env.VITE_ORDERS_API_URL || 'http://localhost:3003/api';
+const aggregatorBaseUrl = import.meta.env.VITE_AGGREGATOR_API_URL || 'http://localhost:8005/api';
+const analyticsBaseUrl = import.meta.env.VITE_ANALYTICS_API_URL || 'http://localhost:8006/api';
+
+export const usersApi = createInstance(usersBaseUrl);
+export const productsApi = createInstance(productsBaseUrl);
+export const ordersApi = createInstance(ordersBaseUrl);
+export const aggregatorApi = createInstance(aggregatorBaseUrl);
+export const analyticsApi = createInstance(analyticsBaseUrl);
