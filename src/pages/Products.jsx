@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Eye, Star } from 'lucide-react';
 import { productsApi } from '../services/api';
+import { addToCart } from '../services/cart';
 import Navbar from '../components/Navbar';
+
+const PRODUCT_PLACEHOLDER = '/product-placeholder.svg';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addedMessage, setAddedMessage] = useState('');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,6 +25,12 @@ const Products = () => {
     };
     fetchProducts();
   }, []);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setAddedMessage(`${product.nombre} agregado al carrito`);
+    setTimeout(() => setAddedMessage(''), 1500);
+  };
 
   return (
     <div className="min-h-screen">
@@ -50,7 +60,10 @@ const Products = () => {
               >
                 <div className="relative h-48 bg-midnight-900 overflow-hidden">
                   <img 
-                    src={product.imageUrl || `https://ecommerce-athena-results-12345.s3.amazonaws.com/images/products/${product.id}.jpg`}
+                    src={product.imageUrl || PRODUCT_PLACEHOLDER}
+                    onError={(event) => {
+                      event.currentTarget.src = PRODUCT_PLACEHOLDER;
+                    }}
                     alt={product.nombre}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -60,7 +73,7 @@ const Products = () => {
                   </div>
                 </div>
 
-                <div className="p-6 flex-grow flex flex-col">
+                <div className="p-6 grow flex flex-col">
                   <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">
                     {product.categoria || 'Hardware'}
                   </span>
@@ -74,13 +87,22 @@ const Products = () => {
                       <span className="text-[10px] text-slate-500 block">Precio</span>
                       <span className="text-xl font-bold text-white">S/{product.precio}</span>
                     </div>
-                    <button className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-2xl transition-all shadow-lg shadow-indigo-500/20 active:scale-90">
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-2xl transition-all shadow-lg shadow-indigo-500/20 active:scale-90"
+                    >
                       <ShoppingCart className="w-5 h-5 text-white" />
                     </button>
                   </div>
                 </div>
               </motion.div>
             ))}
+          </div>
+        )}
+
+        {addedMessage && (
+          <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-xl shadow-lg">
+            {addedMessage}
           </div>
         )}
       </main>

@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LogIn, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, LogIn, Lock, Mail } from 'lucide-react';
 import { usersApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState(''); // Usado como username (puede ser email o nombre)
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Login = () => {
       login(user, access_token);
       navigate(user.role === 'admin' ? '/admin' : '/products');
     } catch (err) {
-      setError('Credenciales inválidas. Intenta de nuevo.');
+      setError('Usuario o contraseña incorrecta');
     } finally {
       setLoading(false);
     }
@@ -79,13 +80,21 @@ const Login = () => {
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
               <input 
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
-                className="w-full bg-midnight-900 border border-white border-opacity-10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full bg-midnight-900 border border-white border-opacity-10 rounded-xl py-3 pl-12 pr-12 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((value) => !value)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
           </div>
 
@@ -102,6 +111,13 @@ const Login = () => {
           >
             {loading ? 'Iniciando sesión...' : 'Entrar'}
           </button>
+
+          <p className="text-slate-400 text-sm text-center">
+            ¿No tienes cuenta?{' '}
+            <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-semibold">
+              Regístrate
+            </Link>
+          </p>
         </form>
       </motion.div>
     </div>

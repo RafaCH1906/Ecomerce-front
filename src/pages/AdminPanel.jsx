@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { productsApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
+const PRODUCT_PLACEHOLDER = '/product-placeholder.svg';
+
 const AdminPanel = () => {
   // Product State
   const [products, setProducts] = useState([]);
@@ -119,7 +121,7 @@ const AdminPanel = () => {
       stock: product.stock,
       categoriaId: product.categoria.id,
     });
-    setPreview(product.imagenUrl);
+    setPreview(product.imageUrl);
     setFile(null);
   };
 
@@ -238,7 +240,7 @@ const AdminPanel = () => {
           <div className="glass p-6 rounded-3xl h-full">
             <h3 className="text-xl font-bold text-white mb-4">Listado de Productos</h3>
             <input type="text" placeholder="Buscar producto..." className="w-full p-3 mb-4 rounded-xl bg-slate-900/70 text-white placeholder-gray-400" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-            <div className="overflow-auto max-h-[600px]">
+            <div className="overflow-auto max-h-150">
               <table className="w-full text-left text-white">
                 <thead>
                   <tr className="border-b border-slate-700">
@@ -248,7 +250,7 @@ const AdminPanel = () => {
                 <tbody>
                   {filteredProducts.map(product => (
                     <tr key={product.id} className="border-b border-slate-800 hover:bg-slate-900/50">
-                      <td className="p-2"><img src={product.imagenUrl || 'https://via.placeholder.com/50'} alt={product.nombre} className="w-12 h-12 rounded-md object-cover" /></td>
+                      <td className="p-2"><img src={product.imageUrl || PRODUCT_PLACEHOLDER} onError={(event) => { event.currentTarget.src = PRODUCT_PLACEHOLDER; }} alt={product.nombre} className="w-12 h-12 rounded-md object-cover" /></td>
                       <td className="p-2">{product.nombre}</td>
                       <td className="p-2">{product.categoria?.nombre || 'N/A'}</td>
                       <td className="p-2">S/{product.precio.toFixed(2)}</td>
@@ -280,7 +282,7 @@ const AdminPanel = () => {
         <div className="lg:col-span-2">
           <div className="glass p-6 rounded-3xl h-full">
             <h3 className="text-xl font-bold text-white mb-4">Listado de Categorías</h3>
-            <div className="overflow-auto max-h-[400px]">
+            <div className="overflow-auto max-h-100">
               <table className="w-full text-left text-white">
                 <thead>
                   <tr className="border-b border-slate-700">
